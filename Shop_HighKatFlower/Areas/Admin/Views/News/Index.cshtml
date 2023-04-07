@@ -1,4 +1,6 @@
-﻿@model IEnumerable<Shop_HighKatFlower.Models.EF.News>
+﻿@model PagedList.PagedList<Shop_HighKatFlower.Models.EF.News>
+@using PagedList.Mvc;
+@using PagedList;
 @{
     ViewBag.Title = "Tin tức";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
@@ -14,7 +16,7 @@
             <a href="~/Content/clients/index3.html" class="nav-link">Trang Chủ</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="/admin/category" class="nav-link">@ViewBag.Title</a>
+            <a href="/admin/news" class="nav-link">@ViewBag.Title</a>
         </li>
     </ul>
 
@@ -49,7 +51,21 @@
             </div>
         </div>
         <div class="card-body">
-            <table class="table table-hover">
+            <div class="row">
+                <div class="col-4">
+                    @using (Html.BeginForm("index", "News", FormMethod.Get, new {}))
+                    {
+                        <div class="input-group input-group-sm">
+                            @Html.TextBox("Searchtext",null, new { @class = "form-control" } )
+                            @*<input type="text" name="searchtext" class="form-control">*@
+                            <span class="input-group-append">
+                                <button type="submit" class="btn btn-info btn-flat">Tìm kiếm</button>
+                            </span>
+                        </div>
+                    }
+                </div>
+            </div>
+            <table class="table table-hover text-center">
                 <thead>
                     <tr>
                         <th><input type="checkbox" id="SelectAll" /></th>
@@ -64,7 +80,7 @@
                 <tbody>
                     @if (Model != null && Model.Any())
                     {
-                        var i = 1;
+                        var i = ((ViewBag.Page - 1)* ViewBag.PageSize) +1;
                         foreach (var item in Model)
                         {
                             var strCheck = item.IsActive ? "<i class='fa fa-check text-success' ></i>" : "<i class='fa fa-times text-danger' ></i>";
@@ -81,6 +97,7 @@
                                     <a href="/admin/news/edit/@item.Id" class="btn btn-outline-success">Sửa</a>
                                     <a href="#" data-id="@item.Id" class="btn btn-outline-info btnDelete">Xóa</a>
                                 </td>
+                                
                             </tr>
                             i++;
                         }
@@ -94,7 +111,13 @@
                     }
                 </tbody>
             </table>
-
+            <div class="row">
+                <div class="col-6"></div>
+                <div class="col-6" style="text-align:right;"">
+                    @Html.PagedListPager(Model, page => Url.Action("Index", new { page, @class = "" }))
+                </div>
+            </div>
+            
         </div>
         <!-- /.card-footer-->
     </div>

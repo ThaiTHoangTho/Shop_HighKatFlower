@@ -18,16 +18,20 @@ namespace Shop_HighKatFlower.Models.EF
         public int Id { get; set; }
         [Required]
         public string Code { get; set; }
-        [Required]
+        [Required(ErrorMessage ="Vui lòng nhập tên khách hàng")]
         public string  CustomerName { get; set; }
-        [Required]
+        [Phone]
+        [Required(ErrorMessage = "Vui lòng nhập số điện thoại")]
         public string Phone { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Vui lòng nhập địa chỉ")]
         public string Address { get; set; }
+        [EmailAddress]
+        public string Email { get; set; }
         [Required]
         public decimal TotalAmount { get; set; }
         [Required]
         public int Quantity { get; set; }
-        public ICollection<OrderDetail> OrderDetails { get; set; }
+        public int TypePayment { get; set; }
+        public  virtual ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }

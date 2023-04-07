@@ -1,4 +1,5 @@
-﻿using Shop_HighKatFlower.Models;
+﻿using PagedList;
+using Shop_HighKatFlower.Models;
 using Shop_HighKatFlower.Models.EF;
 using System;
 using System.Collections.Generic;
@@ -12,9 +13,22 @@ namespace Shop_HighKatFlower.Areas.Admin.Controllers
     {
         private ApplicationDbContext db=new ApplicationDbContext();
         // GET: Admin/News
-        public ActionResult Index()
+        public ActionResult Index(string Searchtext, int? page)
         {
-            var item = db.News.OrderByDescending(x => x.Id).ToList();
+            var pageSize = 7;
+            if(page== null)
+            {
+                page = 1;
+            }
+            IEnumerable<News> item = db.News.OrderByDescending(x => x.Id);
+            if (!string.IsNullOrEmpty(Searchtext))
+            {
+                item=item.Where(x=>x.Title.Contains(Searchtext));
+            }    
+            var pageIndex=page.HasValue ? Convert.ToInt32(page) : 1;
+            item = item.ToPagedList(pageIndex,pageSize);
+            ViewBag.PageSize = pageSize;
+            ViewBag.Page = page;
             return View(item);
         }
         public ActionResult Add()
@@ -29,6 +43,7 @@ namespace Shop_HighKatFlower.Areas.Admin.Controllers
             {
                 news.CreateDate = DateTime.Now;
                 news.ModifiedDate = DateTime.Now;
+                news.Alias = Shop_HighKatFlower.Models.Common.Filter.FilterChar(news.Title);
                 news.CategoryId = 1;
                 db.News.Add(news);
                 db.SaveChanges();
@@ -48,6 +63,7 @@ namespace Shop_HighKatFlower.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 news.ModifiedDate = DateTime.Now;
+                news.Alias = Shop_HighKatFlower.Models.Common.Filter.FilterChar(news.Title);
                 db.News.Attach(news);     
                 db.Entry(news).State=System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();

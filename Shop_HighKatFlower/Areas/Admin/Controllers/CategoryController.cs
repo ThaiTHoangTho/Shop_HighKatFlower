@@ -30,6 +30,7 @@ namespace Shop_HighKatFlower.Areas.Admin.Controllers
             {
                 category.CreateDate = DateTime.Now;
                 category.ModifiedDate = DateTime.Now;
+                category.Alias = Shop_HighKatFlower.Models.Common.Filter.FilterChar(category.Title);
                 db.Categories.Add(category);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -49,6 +50,7 @@ namespace Shop_HighKatFlower.Areas.Admin.Controllers
             {
                 db.Categories.Attach(category);
                 category.ModifiedDate = DateTime.Now;
+                category.Alias = Shop_HighKatFlower.Models.Common.Filter.FilterChar(category.Title);
                 db.Entry(category).Property(x => x.Title).IsModified = true;
                 db.Entry(category).Property(x => x.Description).IsModified = true;
                 db.Entry(category).Property(x => x.SeoDescription).IsModified = true;

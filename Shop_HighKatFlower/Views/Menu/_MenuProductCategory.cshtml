@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Shop_HighKatFlower.Models.EF.ProductCategory>
+
+@if (Model != null && Model.Any())
+{
+    <!-- Banner -->
+    <div class="banner">
+        <div class="container">
+            <div class="row">
+                @foreach (var items in Model)
+                {
+                    <div class="col-md-4">
+                        <div class="banner_item align-items-center" style="background-image: url(@items.Icon);">
+                            <div class="banner_category">
+                                <a href="@items.Alias">@items.Title</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                @*                <div class="col-md-4">
+                        <div class="banner_item align-items-center" style="background-image:url(image/BeMyWife1.jpg)">
+                            <div class="banner_category">
+                                <a href="categories.html">Hoa Cưới</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="banner_item align-items-center" style="background-image:url(image/Happy1.jpg)">
+                            <div class="banner_category">
+                                <a href="categories.html"> Flower Box</a>
+                            </div>
+                        </div>
+                    </div>*@
+            </div>
+        </div>
+    </div>
+}
+

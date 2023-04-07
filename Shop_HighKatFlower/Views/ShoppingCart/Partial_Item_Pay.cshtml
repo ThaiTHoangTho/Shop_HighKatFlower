@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Shop_HighKatFlower.Models.ShoppingcartItem>
+@using Shop_HighKatFlower.Common
+
+@if (Model != null && Model.Any())
+{
+    <h3>GIỎ HÀNG <span style="float:right;position:relative"><small>@Model.Count()</small></span></h3>
+    /* var i = 0;*/
+    var sum = decimal.Zero;
+    <div style="border:1px solid #808080;">
+        <table class="table">
+            @foreach (var item in Model)
+            {
+                sum += item.PriceTotal;
+                <tr>
+                    <td>@item.ProductName</td>
+                    <td>@item.Quanity</td>
+                    <td>@Common.FormatNumber(item.Price, 0)</td>
+                </tr>
+            }
+            <tr>
+                <td></td>
+                <td>Tổng tiền</td>
+                <td>@Common.FormatNumber(sum, 0)</td>
+            </tr>
+        </table>
+    </div>
+
+}
+else
+{
+
+}
+

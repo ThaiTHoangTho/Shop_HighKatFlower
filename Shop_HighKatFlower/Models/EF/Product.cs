@@ -1,46 +1,63 @@
-﻿using System;
+﻿using Shop_HighKatFlower.Models.EF;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace Shop_HighKatFlower.Models.EF
 {
-    public class Product:CommonAbstract
+
+    public class Product : CommonAbstract
     {
+        public Product()
+        {
+            this.ProductImage = new HashSet<ProductImage>();
+            this.OrderDetails = new HashSet<OrderDetail>();
+        }
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        [Required(ErrorMessage ="Không được bỏ trống")]
-        [StringLength(100)]
+        [Required]
+        [StringLength(250)]
         public string Title { get; set; }
+
+        [StringLength(250)]
+        public string Alias { get; set; }
+
+        [StringLength(50)]
         public string ProductCode { get; set; }
         public string Description { get; set; }
+
+        [AllowHtml]
         public string Detail { get; set; }
+
+        [StringLength(250)]
         public string Image { get; set; }
-        //gia ban
-        [Required(ErrorMessage = "Không được bỏ trống")]
+        public decimal OriginalPrice { get; set; }
         public decimal Price { get; set; }
-        //Gia mua vao
-        [Required(ErrorMessage = "Không được bỏ trống")]
-        public decimal PriceSale { get; set; }
-        //so luong
-        [Required(ErrorMessage = "Không được bỏ trống")]
+        public decimal? PriceSale { get; set; }
         public int Quantity { get; set; }
+        public int ViewCount { get; set; }
         public bool IsHome { get; set; }
         public bool IsSale { get; set; }
         public bool IsFeature { get; set; }
         public bool IsHot { get; set; }
         public bool IsActive { get; set; }
-        public int ProcductCategoryId { get; set; }
+        [Required]
+        public int ProductCategoryId { get; set; }
+
+        [StringLength(250)]
         public string SeoTitle { get; set; }
+        [StringLength(500)]
         public string SeoDescription { get; set; }
+        [StringLength(250)]
         public string SeoKeywords { get; set; }
 
         public virtual ProductCategory ProductCategory { get; set; }
-
-
-
+        public virtual ICollection<ProductImage> ProductImage { get; set; }
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }

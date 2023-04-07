@@ -22,6 +22,8 @@ namespace Shop_HighKatFlower.Models
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<Subscribe> subscribes { get; set; }
 
+        public DbSet<ProductImage> ProductImages { get; set; }
+
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {

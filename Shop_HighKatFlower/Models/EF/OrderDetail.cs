@@ -16,8 +16,8 @@ namespace Shop_HighKatFlower.Models.EF
         public int OrderID { get; set; }
         [Required]
         public int ProductID { get; set; }
-        public string Quanity { get; set; }
-        public string Price { get; set; }
+        public int Quanity { get; set; }
+        public decimal Price { get; set; }
         public virtual Order Order { get; set; }
         public virtual Product Product { get; set; }
     }
